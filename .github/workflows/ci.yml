@@ -6,13 +6,18 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      isolated_runner:
+        description: 'Use a temporary repository runner with the lab3-ephemeral label'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ inputs.isolated_runner && 'lab3-ephemeral' || 'ubuntu-24.04' }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -37,7 +42,8 @@ jobs:
         run: docker build --tag matrix-calculator .
       - name: Run container smoke test
         run: |
-          docker run --rm matrix-calculator | tee container-output.txt
+          docker run --rm matrix-calculator > container-output.txt
+          cat container-output.txt
           grep -F '19.00  22.00' container-output.txt
           grep -F 'Random matrix 3x4' container-output.txt
       - name: Upload documentation

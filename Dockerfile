@@ -1,5 +1,5 @@
 FROM ubuntu:24.04 AS builder
-RUN apt-get update && apt-get install -y --no-install-recommends cmake g++ && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends cmake g++ make && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY CMakeLists.txt ./
 COPY include/ include/
