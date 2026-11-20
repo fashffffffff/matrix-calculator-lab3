@@ -71,7 +71,7 @@ void write_row(std::ostream& output, const double* values, int cols) {
         if (cols > kVisibleCols && col == kVisibleCols / 2) {
             output << "... ";
         }
-        const int index = col < kVisibleCols / 2 ? col : col + cols - visible_cols;
+        const int index = col < kVisibleCols / 2 ? col : col + (cols - visible_cols);
         output << std::setw(kFieldWidth) << values[index];
     }
     output << "]\n";
@@ -161,13 +161,12 @@ void print_matrix(Matrix m) {
         if (m.rows > kVisibleRows && row == kVisibleRows / 2) {
             output << "[...]\n";
         }
-        const int index = row < kVisibleRows / 2 ? row : row + m.rows - visible_rows;
+        const int index = row < kVisibleRows / 2 ? row : row + (m.rows - visible_rows);
         write_row(output, m.data[index], m.cols);
     }
     if (m.rows > kVisibleRows || m.cols > kVisibleCols) {
-        output << "Matrix " << m.rows << 'x' << m.cols << " ("
-               << m.rows - visible_rows << " rows omitted, "
-               << std::max(0, m.cols - kVisibleCols) << " columns omitted)\n";
+        output << "Matrix " << m.rows << 'x' << m.cols << " (" << m.rows - visible_rows
+               << " rows omitted, " << std::max(0, m.cols - kVisibleCols) << " columns omitted)\n";
     }
     std::cout << output.str();
 }
