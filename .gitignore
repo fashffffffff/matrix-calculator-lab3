@@ -1,0 +1,5 @@
+/build*/
+/docs/html/
+/docs/latex/
+*.o
+.DS_Store
