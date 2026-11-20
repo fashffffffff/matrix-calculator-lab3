@@ -6,18 +6,13 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      isolated_runner:
-        description: 'Use a temporary repository runner with the lab3-ephemeral label'
-        type: boolean
-        default: false
 
 permissions:
   contents: read
 
 jobs:
   build-and-test:
-    runs-on: ${{ inputs.isolated_runner && 'lab3-ephemeral' || 'ubuntu-24.04' }}
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
